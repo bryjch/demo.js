@@ -113,7 +113,10 @@ function handleTFEntity(entity, match, message) {
                     const propName = prop.definition.ownerTableName + '.' + prop.definition.name;
                     switch (propName) {
                         case 'DT_WeaponMedigun.m_hHealingTarget':
-                            weapon.healTarget = prop.value;
+                            // prop.value is the entityId of the attribute manager - which is rather useless
+                            // to figure out which entity (player) that is being healed, so we convert it
+                            // to the entityId of the player instead
+                            weapon.healTarget = match.outerMap.get(prop.value);
                             break;
                         case 'DT_TFWeaponMedigunDataNonLocal.m_flChargeLevel':
                             weapon.chargeLevel = prop.value;

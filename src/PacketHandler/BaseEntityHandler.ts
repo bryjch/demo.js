@@ -10,9 +10,13 @@ export function handleBaseEntity(entity: PacketEntity, match: Match, message: Pa
 				match.outerMap.set(prop.value as number, entity.entityIndex);
 			}
 		}
-	}
 
-	for (const prop of entity.props) {
+		if (prop.definition.ownerTableName === 'DT_AttributeManager' && prop.definition.name === 'm_hOuter') {
+			if (!match.outerMap.has(prop.value as number)) {
+				match.outerMap.set(prop.value as number, entity.entityIndex);
+			}
+		}
+
 		if (prop.definition.ownerTableName === 'DT_BaseCombatWeapon' && prop.definition.name === 'm_hOwner') {
 			if (!match.weaponMap.has(entity.entityIndex)) {
 				match.weaponMap.set(entity.entityIndex, {
