@@ -1707,22 +1707,22 @@
     {
       "winner": "blue",
       "length": 530.2799682617188,
-      "end_tick": 63690
+      "endTick": 63690
     },
     {
       "winner": "red",
       "length": 508.54498291015625,
-      "end_tick": 97927
+      "endTick": 97927
     },
     {
       "winner": "blue",
       "length": 96.3150634765625,
-      "end_tick": 104679
+      "endTick": 104679
     },
     {
       "winner": "blue",
       "length": 624.31494140625,
-      "end_tick": 146639
+      "endTick": 146639
     }
   ],
   "startTick": 27956,

@@ -1973,37 +1973,37 @@
     {
       "winner": "red",
       "length": 194.35498046875,
-      "end_tick": 30912
+      "endTick": 30912
     },
     {
       "winner": "red",
       "length": 298.5450134277344,
-      "end_tick": 51481
+      "endTick": 51481
     },
     {
       "winner": "red",
       "length": 195,
-      "end_tick": 65149
+      "endTick": 65149
     },
     {
       "winner": "blue",
       "length": 117.0899658203125,
-      "end_tick": 73618
+      "endTick": 73618
     },
     {
       "winner": "red",
       "length": 95.489990234375,
-      "end_tick": 80655
+      "endTick": 80655
     },
     {
       "winner": "blue",
       "length": 163.7550048828125,
-      "end_tick": 92238
+      "endTick": 92238
     },
     {
       "winner": "red",
       "length": 256.3499755859375,
-      "end_tick": 109995
+      "endTick": 109995
     }
   ],
   "startTick": 17622,

@@ -1453,22 +1453,22 @@
     {
       "winner": "blue",
       "length": 397.905029296875,
-      "end_tick": 40395
+      "endTick": 40395
     },
     {
       "winner": "blue",
       "length": 577.3049926757812,
-      "end_tick": 79549
+      "endTick": 79549
     },
     {
       "winner": "blue",
       "length": 621.5699462890625,
-      "end_tick": 122174
+      "endTick": 122174
     },
     {
       "winner": "blue",
       "length": 635.8050537109375,
-      "end_tick": 165226
+      "endTick": 165226
     }
   ],
   "startTick": 79,

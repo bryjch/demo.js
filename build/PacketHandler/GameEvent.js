@@ -47,7 +47,7 @@ function handleRoundWin(event, match) {
         match.rounds.push({
             winner: values.team === 2 ? 'red' : 'blue',
             length: values.round_time,
-            end_tick: match.tick
+            endTick: match.tick
         });
     }
 }
