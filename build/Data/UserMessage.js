@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var UserMessageType;
 (function (UserMessageType) {
+    UserMessageType[UserMessageType["Unknown"] = -1] = "Unknown";
     UserMessageType[UserMessageType["Geiger"] = 0] = "Geiger";
     UserMessageType[UserMessageType["Train"] = 1] = "Train";
     UserMessageType[UserMessageType["HudText"] = 2] = "HudText";
@@ -76,6 +77,6 @@ exports.UserMessagePacketTypeMap = new Map([
     ['breakModelPumpkin', UserMessageType.BreakModel_Pumpkin],
     ['resetHUD', UserMessageType.ResetHUD],
     ['shake', UserMessageType.Shake],
-    ['unknownUserMessage', -1]
+    ['unknownUserMessage', UserMessageType.Unknown]
 ]);
 //# sourceMappingURL=UserMessage.js.map

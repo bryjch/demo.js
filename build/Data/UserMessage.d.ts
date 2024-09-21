@@ -1,5 +1,6 @@
 import { BitStream } from 'bit-buffer';
 export declare enum UserMessageType {
+    Unknown = -1,
     Geiger = 0,
     Train = 1,
     HudText = 2,

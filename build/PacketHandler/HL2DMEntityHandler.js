@@ -49,9 +49,11 @@ function handleHL2DMEntity(entity, match, message) {
                         break;
                     case 'DT_HL2MP_Player.m_angEyeAngles[0]':
                         player.viewAngle = prop.value;
+                        player.viewAngles.y = prop.value;
                         break;
                     case 'DT_HL2MP_Player.m_angEyeAngles[1]':
                         player.viewAngle = prop.value;
+                        player.viewAngles.x = prop.value;
                         break;
                     case 'DT_BasePlayer.m_lifeState':
                         player.lifeState = prop.value;
@@ -62,6 +64,16 @@ function handleHL2DMEntity(entity, match, message) {
                                 player.activeWeapon = i;
                             }
                         }
+                        break;
+                    case 'DT_BaseFlex.m_vecViewOffset[2]':
+                        // vertical offset equivalent to player crouching. since
+                        // we aren't using `viewAngles.z` for anything, we can
+                        // save from creating another cache to store this info
+                        player.viewAngles.z = prop.value;
+                        break;
+                    default:
+                    // uncomment to see available props
+                    // console.log(propName);
                 }
             }
             break;
