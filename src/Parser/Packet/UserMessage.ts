@@ -20,7 +20,7 @@ function unknownPacketHandler<T extends UnknownType>(userMessageType: T): NamedP
 				userMessageType,
 				type: UserMessagePacketTypeMap.get(userMessageType),
 				data
-			} as UserMessageTypeMap[T];
+			} as any;
 		},
 		encoder: (packet: UnknownUserMessageBasePacket, data: BitStream) => {
 			packet.data.index = 0;

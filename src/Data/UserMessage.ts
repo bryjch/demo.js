@@ -1,6 +1,7 @@
 import {BitStream} from 'bit-buffer';
 
 export enum UserMessageType {
+	Unknown = -1,
 	Geiger = 0,
 	Train = 1,
 	HudText = 2,
@@ -165,5 +166,5 @@ export const UserMessagePacketTypeMap: Map<UserMessagePacketType, UserMessageTyp
 		['breakModelPumpkin', UserMessageType.BreakModel_Pumpkin],
 		['resetHUD', UserMessageType.ResetHUD],
 		['shake', UserMessageType.Shake],
-		['unknownUserMessage', -1]
+		['unknownUserMessage', UserMessageType.Unknown]
 	]);
