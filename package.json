@@ -25,6 +25,7 @@
     "typescript": "^3.3.3"
   },
   "scripts": {
-    "build": "make"
+    "build": "make",
+    "parse": "ts-node parse"
   }
 }
