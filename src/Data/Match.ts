@@ -11,6 +11,7 @@ import { ParserState } from "./ParserState";
 import { Player } from "./Player";
 import { PlayerResource } from "./PlayerResource";
 import { Projectile } from "./Projectile";
+import { SpawnItem } from "./SpawnItem";
 import { Round } from "./Round";
 import { Team, TeamNumber } from "./Team";
 import { UserInfo } from "./UserInfo";
@@ -35,6 +36,7 @@ export class Match {
   public teams: Map<TeamNumber, Team> = new Map();
   public teamEntityMap: Map<EntityId, Team> = new Map();
   public projectileEntityMap: Map<EntityId, Projectile> = new Map();
+  public spawnItemEntityMap: Map<EntityId, SpawnItem> = new Map();
   public buildings: Map<EntityId, Building> = new Map();
   public playerResources: PlayerResource[] = [];
   public readonly parserState: ParserState;

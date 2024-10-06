@@ -42,6 +42,13 @@ function handleStringTableEntries(tableName: string, entries: StringTableEntry[]
 			}
 		}
 	}
+	if (tableName === 'modelprecache') {
+		for (const [index, modelPrecache] of entries.entries()) {
+			if (modelPrecache) {
+				state.modelPrecache.set(index, modelPrecache.text);
+			}
+		}
+	}
 }
 
 function calculateUserInfoFromEntry(text: string, extraData: BitStream, state: ParserState) {

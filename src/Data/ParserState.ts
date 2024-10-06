@@ -25,6 +25,7 @@ export class ParserState {
 	public eventDefinitions: Map<number, GameEventDefinition<GameEventType>> = new Map();
 	public eventDefinitionTypes: Map<GameEventType, number> = new Map();
 	public entityClasses: Map<EntityId, ServerClass> = new Map();
+	public modelPrecache: Map<number, string> = new Map();
 	public sendTables: Map<SendTableName, SendTable> = new Map();
 	public stringTables: StringTable[] = [];
 	public serverClasses: ServerClass[] = [];

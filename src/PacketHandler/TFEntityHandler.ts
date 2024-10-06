@@ -66,7 +66,7 @@ export function handleTFEntity(
           }
         }
         if (prop.definition.ownerTableName === "m_iAmmo") {
-          if (prop.value !== null && prop.value > 0) {
+          if (prop.value !== null && (prop.value as number) > 0) {
             player.ammo[
               parseInt(prop.definition.name, 10)
             ] = prop.value as number;
