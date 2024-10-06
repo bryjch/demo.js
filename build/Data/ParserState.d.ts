@@ -17,6 +17,7 @@ export declare class ParserState {
     eventDefinitions: Map<number, GameEventDefinition<GameEventType>>;
     eventDefinitionTypes: Map<GameEventType, number>;
     entityClasses: Map<EntityId, ServerClass>;
+    modelPrecache: Map<number, string>;
     sendTables: Map<SendTableName, SendTable>;
     stringTables: StringTable[];
     serverClasses: ServerClass[];

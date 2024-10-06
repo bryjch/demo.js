@@ -12,6 +12,7 @@ class ParserState {
         this.eventDefinitions = new Map();
         this.eventDefinitionTypes = new Map();
         this.entityClasses = new Map();
+        this.modelPrecache = new Map();
         this.sendTables = new Map();
         this.stringTables = [];
         this.serverClasses = [];

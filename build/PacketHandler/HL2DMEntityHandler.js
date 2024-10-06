@@ -1,9 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const PacketEntity_1 = require("../Data/PacketEntity");
 const Player_1 = require("../Data/Player");
+const Vector_1 = require("../Data/Vector");
+// // Uncomment for debugging
+// const serverClasses = {}
 function handleHL2DMEntity(entity, match, message) {
+    // serverClasses[entity.serverClass.name] = (serverClasses[entity.serverClass.name] || 0) + 1;
+    // console.log(serverClasses);
     switch (entity.serverClass.name) {
-        case 'CHL2MP_Player':
+        case "CHL2MP_Player":
             const userInfo = match.getUserInfoForEntity(entity);
             if (!userInfo) {
                 throw new Error(`No user info for entity ${entity.entityIndex}`);
@@ -11,61 +17,59 @@ function handleHL2DMEntity(entity, match, message) {
             if (userInfo.entityId !== entity.entityIndex) {
                 throw new Error(`Invalid user info for entity ${entity.entityIndex} vs ${userInfo.entityId}`);
             }
-            const player = (match.playerEntityMap.has(entity.entityIndex)) ?
-                match.playerEntityMap.get(entity.entityIndex) :
-                new Player_1.Player(match, userInfo);
+            const player = match.playerEntityMap.has(entity.entityIndex) ? match.playerEntityMap.get(entity.entityIndex) : new Player_1.Player(match, userInfo);
             if (!match.playerEntityMap.has(entity.entityIndex)) {
                 match.playerEntityMap.set(entity.entityIndex, player);
             }
             for (const prop of entity.props) {
-                if (prop.definition.ownerTableName === 'm_hMyWeapons') {
+                if (prop.definition.ownerTableName === "m_hMyWeapons") {
                     if (prop.value !== 2097151) {
                         player.weaponIds[parseInt(prop.definition.name, 10)] = prop.value;
                     }
                 }
-                if (prop.definition.ownerTableName === 'm_iAmmo') {
+                if (prop.definition.ownerTableName === "m_iAmmo") {
                     if (prop.value !== null && prop.value > 0) {
                         player.ammo[parseInt(prop.definition.name, 10)] = prop.value;
                     }
                 }
-                const propName = prop.definition.ownerTableName + '.' + prop.definition.name;
+                const propName = prop.definition.ownerTableName + "." + prop.definition.name;
                 switch (propName) {
-                    case 'DT_BaseEntity.m_iTeamNum':
+                    case "DT_BaseEntity.m_iTeamNum":
                         if (!player.user.team && (prop.value === 2 || prop.value === 3)) {
-                            player.user.team = prop.value === 2 ? 'red' : 'blue';
+                            player.user.team = prop.value === 2 ? "red" : "blue";
                         }
                         player.team = prop.value;
                         break;
-                    case 'DT_BasePlayer.m_iHealth':
+                    case "DT_BasePlayer.m_iHealth":
                         player.health = prop.value;
                         break;
-                    case 'DT_BasePlayer.m_iMaxHealth':
+                    case "DT_BasePlayer.m_iMaxHealth":
                         player.maxHealth = prop.value;
                         break;
-                    case 'DT_BaseEntity.m_vecOrigin':
+                    case "DT_BaseEntity.m_vecOrigin":
                         player.position.x = prop.value.x;
                         player.position.y = prop.value.y;
                         player.position.z = prop.value.z;
                         break;
-                    case 'DT_HL2MP_Player.m_angEyeAngles[0]':
+                    case "DT_HL2MP_Player.m_angEyeAngles[0]":
                         player.viewAngle = prop.value;
                         player.viewAngles.y = prop.value;
                         break;
-                    case 'DT_HL2MP_Player.m_angEyeAngles[1]':
+                    case "DT_HL2MP_Player.m_angEyeAngles[1]":
                         player.viewAngle = prop.value;
                         player.viewAngles.x = prop.value;
                         break;
-                    case 'DT_BasePlayer.m_lifeState':
+                    case "DT_BasePlayer.m_lifeState":
                         player.lifeState = prop.value;
                         break;
-                    case 'DT_BaseCombatCharacter.m_hActiveWeapon':
+                    case "DT_BaseCombatCharacter.m_hActiveWeapon":
                         for (let i = 0; i < player.weapons.length; i++) {
                             if (player.weaponIds[i] === prop.value) {
                                 player.activeWeapon = i;
                             }
                         }
                         break;
-                    case 'DT_BaseFlex.m_vecViewOffset[2]':
+                    case "DT_BaseFlex.m_vecViewOffset[2]":
                         // vertical offset equivalent to player crouching. since
                         // we aren't using `viewAngles.z` for anything, we can
                         // save from creating another cache to store this info
@@ -77,16 +81,16 @@ function handleHL2DMEntity(entity, match, message) {
                 }
             }
             break;
-        case 'CTeam':
-            if (entity.hasProperty('DT_Team', 'm_iTeamNum')) {
-                const teamId = entity.getProperty('DT_Team', 'm_iTeamNum').value;
+        case "CTeam":
+            if (entity.hasProperty("DT_Team", "m_iTeamNum")) {
+                const teamId = entity.getProperty("DT_Team", "m_iTeamNum").value;
                 if (!match.teams.has(teamId)) {
                     const team = {
-                        name: entity.getProperty('DT_Team', 'm_szTeamname').value,
-                        score: entity.getProperty('DT_Team', 'm_iScore').value,
-                        roundsWon: entity.getProperty('DT_Team', 'm_iRoundsWon').value,
-                        players: entity.getProperty('DT_Team', '"player_array"').value,
-                        teamNumber: teamId
+                        name: entity.getProperty("DT_Team", "m_szTeamname").value,
+                        score: entity.getProperty("DT_Team", "m_iScore").value,
+                        roundsWon: entity.getProperty("DT_Team", "m_iRoundsWon").value,
+                        players: entity.getProperty("DT_Team", '"player_array"').value,
+                        teamNumber: teamId,
                     };
                     match.teams.set(teamId, team);
                     match.teamEntityMap.set(entity.entityIndex, team);
@@ -98,15 +102,15 @@ function handleHL2DMEntity(entity, match, message) {
                     throw new Error(`No team with entity id: ${entity.entityIndex}`);
                 }
                 for (const prop of entity.props) {
-                    const propName = prop.definition.ownerTableName + '.' + prop.definition.name;
+                    const propName = prop.definition.ownerTableName + "." + prop.definition.name;
                     switch (propName) {
-                        case 'DT_Team.m_iScore':
+                        case "DT_Team.m_iScore":
                             team.score = prop.value;
                             break;
-                        case 'DT_Team.m_szTeamname':
+                        case "DT_Team.m_szTeamname":
                             team.name = prop.value;
                             break;
-                        case 'DT_Team.m_iRoundsWon':
+                        case "DT_Team.m_iRoundsWon":
                             team.roundsWon = prop.value;
                             break;
                         case 'DT_Team."player_array"':
@@ -116,7 +120,7 @@ function handleHL2DMEntity(entity, match, message) {
                 }
             }
             break;
-        case 'CPlayerResource':
+        case "CPlayerResource":
             for (const prop of entity.props) {
                 const playerId = parseInt(prop.definition.name, 10);
                 const value = prop.value;
@@ -144,81 +148,113 @@ function handleHL2DMEntity(entity, match, message) {
                         score: 0,
                         team: 0,
                         totalScore: 0,
-                        damage: 0
+                        damage: 0,
                     };
                 }
                 const playerResource = match.playerResources[playerId];
                 switch (prop.definition.ownerTableName) {
-                    case 'm_iPing':
+                    case "m_iPing":
                         playerResource.ping = value;
                         break;
-                    case 'm_iScore':
+                    case "m_iScore":
                         playerResource.score = value;
                         break;
-                    case 'm_iDeaths':
+                    case "m_iDeaths":
                         playerResource.deaths = value;
                         break;
-                    case 'm_bConnected':
+                    case "m_bConnected":
                         playerResource.connected = value > 0;
                         break;
-                    case 'm_iTeam':
+                    case "m_iTeam":
                         playerResource.team = value;
                         break;
-                    case 'm_bAlive':
+                    case "m_bAlive":
                         playerResource.alive = value > 0;
                         break;
-                    case 'm_iHealth':
+                    case "m_iHealth":
                         playerResource.health = value;
                         break;
-                    case 'm_iTotalScore':
+                    case "m_iTotalScore":
                         playerResource.totalScore = value;
                         break;
-                    case 'm_iMaxHealth':
+                    case "m_iMaxHealth":
                         playerResource.maxHealth = value;
                         break;
-                    case 'm_iMaxBuffedHealth':
+                    case "m_iMaxBuffedHealth":
                         playerResource.maxBuffedHealth = value;
                         break;
-                    case 'm_iPlayerClass':
+                    case "m_iPlayerClass":
                         playerResource.playerClass = value;
                         break;
-                    case 'm_bArenaSpectator':
+                    case "m_bArenaSpectator":
                         playerResource.arenaSpectator = value > 0;
                         break;
-                    case 'm_iActiveDominations':
+                    case "m_iActiveDominations":
                         playerResource.dominations = value;
                         break;
-                    case 'm_flNextRespawnTime':
+                    case "m_flNextRespawnTime":
                         playerResource.nextRespawn = value;
                         break;
-                    case 'm_iChargeLevel':
+                    case "m_iChargeLevel":
                         playerResource.chargeLevel = value;
                         break;
-                    case 'm_iDamage':
+                    case "m_iDamage":
                         playerResource.damage = value;
                         break;
-                    case 'm_iDamageAssist':
+                    case "m_iDamageAssist":
                         playerResource.damageAssists = value;
                         break;
-                    case 'm_iHealing':
+                    case "m_iHealing":
                         playerResource.healing = value;
                         break;
-                    case 'm_iHealingAssist':
+                    case "m_iHealingAssist":
                         playerResource.healingAssist = value;
                         break;
-                    case 'm_iDamageBlocked':
+                    case "m_iDamageBlocked":
                         playerResource.damageBlocked = value;
                         break;
-                    case 'm_iBonusPoints':
+                    case "m_iBonusPoints":
                         playerResource.bonusPoints = value;
                         break;
-                    case 'm_iPlayerLevel':
+                    case "m_iPlayerLevel":
                         playerResource.playerLevel = value;
                         break;
-                    case 'm_iKillstreak':
+                    case "m_iKillstreak":
                         playerResource.killStreak = value;
                         break;
                 }
+            }
+            break;
+        // https://developer.valvesoftware.com/wiki/CBaseAnimating
+        case "CBaseAnimating":
+            if (!match.spawnItemEntityMap.has(entity.entityIndex)) {
+                match.spawnItemEntityMap.set(entity.entityIndex, {
+                    position: new Vector_1.Vector(0, 0, 0),
+                    rotation: new Vector_1.Vector(0, 0, 0),
+                    modelName: '',
+                });
+            }
+            const spawnItem = match.spawnItemEntityMap.get(entity.entityIndex);
+            for (const prop of entity.props) {
+                switch (prop.definition.name) {
+                    case "m_vecOrigin":
+                        spawnItem.position = prop.value;
+                        break;
+                    case "m_angRotation":
+                        spawnItem.rotation = prop.value;
+                        break;
+                    case "m_nModelIndex":
+                        const modelName = match.parserState.modelPrecache.get(prop.value);
+                        if (modelName)
+                            spawnItem.modelName = modelName;
+                        break;
+                    default:
+                        // console.log(prop.definition.name);
+                        break;
+                }
+            }
+            if (entity.pvs & PacketEntity_1.PVS.LEAVE) {
+                match.spawnItemEntityMap.delete(entity.entityIndex);
             }
             break;
     }

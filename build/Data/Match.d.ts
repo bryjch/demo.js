@@ -8,6 +8,7 @@ import { ParserState } from "./ParserState";
 import { Player } from "./Player";
 import { PlayerResource } from "./PlayerResource";
 import { Projectile } from "./Projectile";
+import { SpawnItem } from "./SpawnItem";
 import { Round } from "./Round";
 import { Team, TeamNumber } from "./Team";
 import { UserInfo } from "./UserInfo";
@@ -28,6 +29,7 @@ export declare class Match {
     teams: Map<TeamNumber, Team>;
     teamEntityMap: Map<EntityId, Team>;
     projectileEntityMap: Map<EntityId, Projectile>;
+    spawnItemEntityMap: Map<EntityId, SpawnItem>;
     buildings: Map<EntityId, Building>;
     playerResources: PlayerResource[];
     readonly parserState: ParserState;

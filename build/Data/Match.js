@@ -22,6 +22,7 @@ class Match {
         this.teams = new Map();
         this.teamEntityMap = new Map();
         this.projectileEntityMap = new Map();
+        this.spawnItemEntityMap = new Map();
         this.buildings = new Map();
         this.playerResources = [];
         this.parserState = parserState;
