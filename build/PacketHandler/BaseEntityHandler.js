@@ -1,7 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+// const tables = {}
 function handleBaseEntity(entity, match, message) {
     for (const prop of entity.props) {
+        // if (!tables[prop.definition.ownerTableName]) {
+        // 	tables[prop.definition.ownerTableName] = true
+        // }
         if (prop.definition.ownerTableName === 'DT_AttributeContainer' && prop.definition.name === 'm_hOuter') {
             if (!match.outerMap.has(prop.value)) {
                 match.outerMap.set(prop.value, entity.entityIndex);
