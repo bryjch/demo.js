@@ -3,8 +3,14 @@ import {PacketMessage} from '../Data/Message';
 import {PacketEntity} from '../Data/PacketEntity';
 import {Vector} from '../Data/Vector';
 
+// const tables = {}
+
 export function handleBaseEntity(entity: PacketEntity, match: Match, message: PacketMessage) {
 	for (const prop of entity.props) {
+		// if (!tables[prop.definition.ownerTableName]) {
+		// 	tables[prop.definition.ownerTableName] = true
+		// }
+
 		if (prop.definition.ownerTableName === 'DT_AttributeContainer' && prop.definition.name === 'm_hOuter') {
 			if (!match.outerMap.has(prop.value as number)) {
 				match.outerMap.set(prop.value as number, entity.entityIndex);

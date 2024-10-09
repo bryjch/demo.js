@@ -30,7 +30,7 @@ export function handleHL2DMEntity(entity: PacketEntity, match: Match, message: P
       for (const prop of entity.props) {
         if (prop.definition.ownerTableName === "m_hMyWeapons") {
           if (prop.value !== 2097151) {
-            player.weaponIds[parseInt(prop.definition.name, 10)] = prop.value as number;
+            player.weaponIds[parseInt(prop.definition.name, 10)] = extractEntityId(prop.value as number);
           }
         }
         if (prop.definition.ownerTableName === "m_iAmmo") {
@@ -70,8 +70,9 @@ export function handleHL2DMEntity(entity: PacketEntity, match: Match, message: P
             break;
           case "DT_BaseCombatCharacter.m_hActiveWeapon":
             for (let i = 0; i < player.weapons.length; i++) {
-              if (player.weaponIds[i] === prop.value) {
-                player.activeWeapon = i;
+              const weaponId = extractEntityId(prop.value as number);
+              if (player.weaponIds[i] === weaponId) {
+                player.activeWeapon = weaponId;
               }
             }
             break;
@@ -82,8 +83,8 @@ export function handleHL2DMEntity(entity: PacketEntity, match: Match, message: P
             player.viewAngles.z = prop.value as number;
             break;
           default:
-          // uncomment to see available props
-          // console.log(propName);
+            // uncomment to see available props
+            // console.log(propName);
         }
       }
       break;
@@ -268,5 +269,22 @@ export function handleHL2DMEntity(entity: PacketEntity, match: Match, message: P
       }
 
       break;
+
+    case "CWeaponSMG1":
+      // for (const prop of entity.props) {
+      //   if (prop.definition.name.includes('OwnerEntity')) {
+      //     console.log(prop.definition.name, prop.value as number)
+      //   }
+      // }
+      break;
   }
+}
+
+/**
+ * TF2 has `DT_AttributeContainer`, `DT_AttributeManager` and `m_hOuter` values that can be
+ * used to determine an entity's ID from the "outer ID" - HL2DM does not have these entity packets.
+ * However it seems we can extract the entity by doing performing a bit mask for the lower 11 bits.
+ */
+function extractEntityId(entityHandleId: number) {
+  return entityHandleId & 0x7FF;
 }

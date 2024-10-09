@@ -33,9 +33,24 @@ export class Player {
 	}
 
 	get weapons(): Weapon[] {
-		return this.weaponIds
-			.map((id) => this.match.outerMap.get(id) as EntityId)
-			.filter((entityId) => entityId > 0)
-			.map((entityId) => this.match.weaponMap.get(entityId) as Weapon);
+		// TF2 demos have the outer map, which makes it easier to map handle to `entityId`
+		// whereas HL2DM ones don't, so an additional step of determining `entityId` from
+		// handle is done by performing a bit mask for the lower 11 bits. Thus the values
+		// of `weaponId` will be different depending on the game:
+		// TF2 - entity handle
+		// HL2DM - entity id
+		if (this.match.outerMap.size > 0) {
+			return this.weaponIds
+				.map((id) => this.match.outerMap.get(id) as EntityId)
+				.filter((entityId) => entityId > 0)
+				.map((entityId) => ({ entityId, ...this.match.weaponMap.get(entityId) } as Weapon));
+		} else {
+			return this.weaponIds
+				.map((id) => {
+					const weapon = this.match.weaponMap.get(id)
+					return weapon ? { ...weapon, entityId: id } : undefined
+				})
+				.filter((weapon) => weapon !== undefined) as Weapon[]
+		}
 	}
 }
