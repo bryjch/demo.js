@@ -236,6 +236,9 @@ export function handleHL2DMEntity(entity: PacketEntity, match: Match, message: P
 
     // https://developer.valvesoftware.com/wiki/CBaseAnimating
     case "CBaseAnimating":
+    case "CPropCombineBall":
+    case "CPhysicsProp":
+    // case "CPhysicsPropMultiplayer": // might not be necessary
       if (!match.spawnItemEntityMap.has(entity.entityIndex)) {
         match.spawnItemEntityMap.set(entity.entityIndex, {
           position: new Vector(0, 0, 0),
