@@ -83,8 +83,8 @@ export function handleHL2DMEntity(entity: PacketEntity, match: Match, message: P
             player.viewAngles.z = prop.value as number;
             break;
           default:
-            // uncomment to see available props
-            // console.log(propName);
+          // uncomment to see available props
+          // console.log(propName);
         }
       }
       break;
@@ -238,12 +238,17 @@ export function handleHL2DMEntity(entity: PacketEntity, match: Match, message: P
     case "CBaseAnimating":
     case "CPropCombineBall":
     case "CPhysicsProp":
-    // case "CPhysicsPropMultiplayer": // might not be necessary
+    case "CWeaponSMG1":
+    case "CWeaponFrag":
+    case "CWeaponPistol":
+    case "CWeaponShotgun":
+    case "CWeaponCrossbow":
+      // case "CPhysicsPropMultiplayer": // might not be necessary
       if (!match.spawnItemEntityMap.has(entity.entityIndex)) {
         match.spawnItemEntityMap.set(entity.entityIndex, {
           position: new Vector(0, 0, 0),
           rotation: new Vector(0, 0, 0),
-          modelName: '',
+          modelName: "",
         });
       }
 
@@ -272,14 +277,6 @@ export function handleHL2DMEntity(entity: PacketEntity, match: Match, message: P
       }
 
       break;
-
-    case "CWeaponSMG1":
-      // for (const prop of entity.props) {
-      //   if (prop.definition.name.includes('OwnerEntity')) {
-      //     console.log(prop.definition.name, prop.value as number)
-      //   }
-      // }
-      break;
   }
 }
 
@@ -289,5 +286,5 @@ export function handleHL2DMEntity(entity: PacketEntity, match: Match, message: P
  * However it seems we can extract the entity by doing performing a bit mask for the lower 11 bits.
  */
 function extractEntityId(entityHandleId: number) {
-  return entityHandleId & 0x7FF;
+  return entityHandleId & 0x7ff;
 }
