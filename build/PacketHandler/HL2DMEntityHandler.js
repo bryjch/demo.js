@@ -228,11 +228,19 @@ function handleHL2DMEntity(entity, match, message) {
             break;
         // https://developer.valvesoftware.com/wiki/CBaseAnimating
         case "CBaseAnimating":
+        case "CPropCombineBall":
+        case "CPhysicsProp":
+        case "CWeaponSMG1":
+        case "CWeaponFrag":
+        case "CWeaponPistol":
+        case "CWeaponShotgun":
+        case "CWeaponCrossbow":
+            // case "CPhysicsPropMultiplayer": // might not be necessary
             if (!match.spawnItemEntityMap.has(entity.entityIndex)) {
                 match.spawnItemEntityMap.set(entity.entityIndex, {
                     position: new Vector_1.Vector(0, 0, 0),
                     rotation: new Vector_1.Vector(0, 0, 0),
-                    modelName: '',
+                    modelName: "",
                 });
             }
             const spawnItem = match.spawnItemEntityMap.get(entity.entityIndex);
@@ -258,13 +266,6 @@ function handleHL2DMEntity(entity, match, message) {
                 match.spawnItemEntityMap.delete(entity.entityIndex);
             }
             break;
-        case "CWeaponSMG1":
-            // for (const prop of entity.props) {
-            //   if (prop.definition.name.includes('OwnerEntity')) {
-            //     console.log(prop.definition.name, prop.value as number)
-            //   }
-            // }
-            break;
     }
 }
 exports.handleHL2DMEntity = handleHL2DMEntity;
@@ -274,6 +275,6 @@ exports.handleHL2DMEntity = handleHL2DMEntity;
  * However it seems we can extract the entity by doing performing a bit mask for the lower 11 bits.
  */
 function extractEntityId(entityHandleId) {
-    return entityHandleId & 0x7FF;
+    return entityHandleId & 0x7ff;
 }
 //# sourceMappingURL=HL2DMEntityHandler.js.map
