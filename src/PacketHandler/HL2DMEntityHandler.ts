@@ -5,6 +5,7 @@ import { Player } from "../Data/Player";
 import { SpawnItem } from "../Data/SpawnItem";
 import { TeamNumber } from "../Data/Team";
 import { Vector } from "../Data/Vector";
+import { WeaponClassNameToIdMap } from "../Data/Weapon";
 
 // // Uncomment for debugging
 // const serverClasses = {}
@@ -69,11 +70,11 @@ export function handleHL2DMEntity(entity: PacketEntity, match: Match, message: P
             player.lifeState = prop.value as number;
             break;
           case "DT_BaseCombatCharacter.m_hActiveWeapon":
-            for (let i = 0; i < player.weapons.length; i++) {
-              const weaponId = extractEntityId(prop.value as number);
-              if (player.weaponIds[i] === weaponId) {
-                player.activeWeapon = weaponId;
-              }
+            const weaponId = extractEntityId(prop.value as number);
+            const weapon = match.weaponMap.get(weaponId);
+            if (weapon) {
+              const weaponId = WeaponClassNameToIdMap[weapon.className];
+              player.activeWeapon = weaponId || 0;
             }
             break;
           case "DT_BaseFlex.m_vecViewOffset[2]":
