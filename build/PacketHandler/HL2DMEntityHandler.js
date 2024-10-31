@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const PacketEntity_1 = require("../Data/PacketEntity");
 const Player_1 = require("../Data/Player");
 const Vector_1 = require("../Data/Vector");
+const Weapon_1 = require("../Data/Weapon");
 // // Uncomment for debugging
 // const serverClasses = {}
 function handleHL2DMEntity(entity, match, message) {
@@ -63,11 +64,11 @@ function handleHL2DMEntity(entity, match, message) {
                         player.lifeState = prop.value;
                         break;
                     case "DT_BaseCombatCharacter.m_hActiveWeapon":
-                        for (let i = 0; i < player.weapons.length; i++) {
-                            const weaponId = extractEntityId(prop.value);
-                            if (player.weaponIds[i] === weaponId) {
-                                player.activeWeapon = weaponId;
-                            }
+                        const weaponId = extractEntityId(prop.value);
+                        const weapon = match.weaponMap.get(weaponId);
+                        if (weapon) {
+                            const weaponId = Weapon_1.WeaponClassNameToIdMap[weapon.className];
+                            player.activeWeapon = weaponId || 0;
                         }
                         break;
                     case "DT_BaseFlex.m_vecViewOffset[2]":
